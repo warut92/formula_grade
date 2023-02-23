@@ -48,3 +48,19 @@ function getCellName() {
 function reset() {
   document.getElementById('formula').innerHTML = "=IF(A1>=80,4,IF(A1>=75,3.5,IF(A1>=70,3,IF(A1>=65,2.5,IF(A1>=60,2,IF(A1>=55,1.5,IF(A1>=50,1,IF(A1<50,0))))))))"
  }
+
+
+ function copyFunction() {
+  // Get the text field
+  var copyText = document.getElementById("formula");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value);
+
+  // Alert the copied text
+  document.getElementById("alert").innerHTML = "คัดลอก!!: " + copyText.value;
+}

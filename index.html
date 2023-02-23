@@ -2,13 +2,15 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สูตร Excel, Google Sheets เกรดนักเรียน</title>
   </head>
   <body>
     <h1>สูตร Excel, Google Sheets เกรดนักเรียน</h1>
     ใส่ตำแหน่งของเซลล์ : <input type="text" id="cellName" oninput="find_str()"><button onclick="getCellName()">รัน</button><button onclick="reset()">รีเซต</button>
     <br>
-    <textarea name="name" rows="8" cols="80" id="formula">=IF(A1>=80,4,IF(A1>=75,3.5,IF(A1>=70,3,IF(A1>=65,2.5,IF(A1>=60,2,IF(A1>=55,1.5,IF(A1>=50,1,IF(A1<50,0))))))))</textarea>
+    <textarea name="name" rows="8" cols="80" id="formula" onfocus="copyFunction()">=IF(A1>=80,4,IF(A1>=75,3.5,IF(A1>=70,3,IF(A1>=65,2.5,IF(A1>=60,2,IF(A1>=55,1.5,IF(A1>=50,1,IF(A1<50,0))))))))</textarea>
+    <p style="color:red;" id="alert"></p>
     <p>หมายเหตุ : ถ้าใส่สูตรแล้ว ผลลัพท์ไม่ตรงกับเกณฑ์การตัดเกรด ให้ตรวจสอบการปัดเศษอัตโนมัติของเซลล์</p>
 
     <a href="https://github.com/warut92/formula_grade">GitHub</a>

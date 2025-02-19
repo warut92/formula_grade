@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IF Formula Generator</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        input {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>ตัวสร้างสูตร IF</h2>
+
+    <label>จำนวนเงื่อนไข</label><br>
+    <input type="number" id="numConditions" placeholder="5" min="1" max="10"><br>
+    <label>ชื่อเซลล์</label><br>
+    <input type="text" id="cellName" placeholder="" min="1" max="10" onkeyup="this.value = this.value.toUpperCase();"><br><br>
+    <label>เครื่องหมายเงื่อนไข</label><br>
+    <input type="text" id="condValue" placeholder="=" min="1" max="10" onkeyup="this.value = this.value.toUpperCase();" value="="><br><br>
+    
+    <button onclick="generateConditionInputs()">สร้างเงื่อนไข</button>
+    <button onclick="generateFormula()">สร้างสูตร</button>
+
+    <div id="conditionsContainer"></div>
+
+
+    <h3>สูตรที่สร้าง</h3>
+    <pre>คลิกที่ textarea เพื่อคัดลอกอัตโนมัติ</pre>
+    
+    <textarea id="output" rows="3" onfocus="copyToClipboard()" readonly></textarea><br><br>
+    <div id="alert"></div>
+    <br>
+    <br>
+    <a href="https://github.com/warut92/formula_grade">GitHub</a>
+    <script>
+        function generateConditionInputs() {
+            let numConditions = document.getElementById("numConditions").value;
+            let cellName = document.getElementById("cellName").value;
+            let condValue = document.getElementById("condValue").value;
+            console.log(cellName);
+            let container = document.getElementById("conditionsContainer");
+            // container.innerHTML = ""; // Clear previous inputs
+
+            for (let i = 1; i <= numConditions; i++) {
+                let html = `
+                    <hr>
+                    No ${i}
+                    <input type="text" id="cell${i}" placeholder="" value=" ` + cellName + ` ">
+
+                    <input type="text" id="condValue${i}" placeholder="" value=" ` + condValue + ` ">
+
+                    <input type="text" id="cond${i}" placeholder="num">
+
+                    <input type="text" id="value${i}" placeholder="true">
+                `;
+                container.innerHTML += html;
+            }
+
+            // Add default false value input at the end
+            container.innerHTML += `
+                <hr>
+                <h4>Final Else Case</h4>
+                <input type="text" id="finalValue" placeholder="false'"><br><br>
+            `;
+        }
+
+        function generateFormula() {
+            let numConditions = document.getElementById("numConditions").value;
+            if (numConditions < 1) {
+                alert("Please enter at least one condition.");
+                return;
+            }
+
+            let formula = "";
+            let closeBrackets = "";
+
+            for (let i = 1; i <= numConditions; i++) {
+                let cell = document.getElementById("cellName").value;
+                console.log(cell);
+                let condition = document.getElementById(`cond${i}`).value;
+                let value = document.getElementById(`value${i}`).value;
+                let conditionValue= document.getElementById(`condValue${i}`).value;
+
+                // Ensure values are properly quoted
+                value = isNaN(value) ? `"${value}"` : value;
+
+                formula += `IF(${cell}${conditionValue}${condition}, ${value}, `;
+                closeBrackets += ")";
+            }
+
+            let finalValue = document.getElementById("finalValue").value;
+            finalValue = isNaN(finalValue) ? `"${finalValue}"` : finalValue;
+
+            formula += finalValue + closeBrackets;
+
+            document.getElementById("output").value = "=" + formula;
+        }
+
+        function copyToClipboard() {
+            let output = document.getElementById("output");
+            output.select();
+            document.execCommand("copy");
+              // Alert the copied text
+  document.getElementById("alert").innerHTML = "คัดลอกสูตร!! กด crtl + v เพื่อวาง";
+
+        }
+    </script>
+
+</body>
+</html>
